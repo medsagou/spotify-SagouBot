@@ -35,14 +35,23 @@ class SpotifyGenerator:
     def get_driver(self):
         
         #self.extenstion = input("Enter Your Country :")
-        # firefox_profile = webdriver.FirefoxProfile()
-        # firefox_profile.set_preference("browser.privatebrowsing.autostart", True)
-        # driver = webdriver.Firefox(firefox_profile=firefox_profile)
-
+        '''
+        firefox_profile = webdriver.FirefoxProfile()
+        firefox_profile.set_preference("browser.privatebrowsing.autostart", True)
+        driver = webdriver.Firefox(firefox_profile=firefox_profile)
+        '''
+        '''
+        
+        chromedriver_path = 'chromedriver.exe'
+        brave_path = '/usr/bin/brave-browser'
+        option = webdriver.ChromeOptions()
+        option.binary_location = brave_path
+        driver = webdriver.Chrome(executable_path=chromedriver_path, options=option)
+        '''
         driver = webdriver.Chrome()
         self.driver = driver
         self.driver.maximize_window()
-        self.driver.get("https://www.spotify.com/signup")
+        self.driver.get("https://www.spotify.com/ec/signup")
         print("NOTE: DRIVER CONNECTED")
         return
 
@@ -177,6 +186,7 @@ class SpotifyGenerator:
                                     (By.CSS_SELECTOR, ".Indicator-hjfusp-0.hJZAEs"))
                             )
                         finally:
+                            self.remove_descrections()
                             try:
                                 go_to_cc_form = self.driver.find_elements(
                                     By.CSS_SELECTOR, ".Indicator-hjfusp-0.hJZAEs")

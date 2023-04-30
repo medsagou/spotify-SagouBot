@@ -32,7 +32,7 @@ class CC_Class:
     def fill_cc_input(self):
         iframe = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "iframe[data-testid='pci-frame']")))
         self.driver.switch_to.frame(iframe)
-        time.sleep(5)
+        #time.sleep(2)
         # Retrieve the credit card number input field and fill in the value
         try:
             cc_number = self.driver.find_element(By.CSS_SELECTOR, "input[id='cardnumber']")
