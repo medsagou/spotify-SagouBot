@@ -130,7 +130,6 @@ class C_Fichier():
     def str_to_fichier(self,string):
         with open(self.nomFichier,'a') as F:   # Ouverture du fichier en mode écriture : à ce niveau si le fichier existe il va être écrasé
              F.write(string)
-             F.writelines('\n')
         return
              
              

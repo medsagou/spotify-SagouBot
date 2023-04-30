@@ -183,9 +183,9 @@ class SpotifyGenerator:
                             except:  
                                 self.try_ccs()
                             else:
-                                if len(go_to_cc_form) > 1:
+                                if len(go_to_cc_form) > 2:
                                     go_to_cc_form[1].click()
-                                elif len(go_to_cc_form) == 1:
+                                elif len(go_to_cc_form) == 2:
                                     go_to_cc_form[0].click()
     
                                 self.try_ccs()
