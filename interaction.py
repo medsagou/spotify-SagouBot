@@ -33,22 +33,42 @@ class SpotifyGenerator:
         self.data_file = "data.txt"
 
     def get_driver(self):
-        
-        #self.extenstion = input("Enter Your Country :")
-        '''
+        # self.extenstion = input("Enter Your Country :")
+        """
         firefox_profile = webdriver.FirefoxProfile()
         firefox_profile.set_preference("browser.privatebrowsing.autostart", True)
         driver = webdriver.Firefox(firefox_profile=firefox_profile)
-        '''
-        '''
+        """
+        """
         
         chromedriver_path = 'chromedriver.exe'
         brave_path = '/usr/bin/brave-browser'
         option = webdriver.ChromeOptions()
         option.binary_location = brave_path
         driver = webdriver.Chrome(executable_path=chromedriver_path, options=option)
-        '''
-        driver = webdriver.Chrome()
+        """
+
+        # Create Chromeoptions instance
+        options = webdriver.ChromeOptions()
+
+        # Adding argument to disable the AutomationControlled flag
+        options.add_argument("--disable-blink-features=AutomationControlled")
+
+        # Exclude the collection of enable-automation switches
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+
+        # Turn-off userAutomationExtension
+        options.add_experimental_option("useAutomationExtension", False)
+
+        # Setting the driver path and requesting a page
+        driver = webdriver.Chrome(options=options)
+
+        # Changing the property of the navigator value for webdriver to undefined
+        driver.execute_script(
+            "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})"
+        )
+
+        # driver = webdriver.Chrome()
         self.driver = driver
         self.driver.maximize_window()
         self.driver.get("https://www.spotify.com/signup")
@@ -56,12 +76,11 @@ class SpotifyGenerator:
         return
 
     def get_Email_from_yopmail(self):
-
-        yopmail_url = 'https://yopmail.com/email-generator'
+        yopmail_url = "https://yopmail.com/email-generator"
         response = requests.get(yopmail_url)
         html_content = response.content
 
-        soup = BeautifulSoup(html_content, 'html.parser')
+        soup = BeautifulSoup(html_content, "html.parser")
 
         email_element_container = soup.find(id="geny")
         email = email_element_container.get_text()
@@ -73,30 +92,36 @@ class SpotifyGenerator:
         try:
             WebDriverWait(self.driver, 100).until(
                 EC.presence_of_element_located(
-                    (By.CSS_SELECTOR, ".Button-sc-1dqy6lx-0.jjtmnk.sibxBMlr_oxWTfBrEz2G"))
+                    (
+                        By.CSS_SELECTOR,
+                        ".Button-sc-1dqy6lx-0.jjtmnk.sibxBMlr_oxWTfBrEz2G",
+                    )
+                )
             )
         finally:
             go_signup = self.driver.find_elements(
-                By.CSS_SELECTOR, ".Button-sc-1dqy6lx-0.jjtmnk.sibxBMlr_oxWTfBrEz2G")
+                By.CSS_SELECTOR, ".Button-sc-1dqy6lx-0.jjtmnk.sibxBMlr_oxWTfBrEz2G"
+            )
             if len(go_signup) != 0:
                 go_signup[0].click()
-                
-        return
-    
-    
-    def remove_descrections(self):
 
+        return
+
+    def remove_descrections(self):
         policy_close_button = self.driver.find_elements(
-            By.CSS_SELECTOR, ".onetrust-close-btn-handler.onetrust-close-btn-ui.banner-close-button.ot-close-icon")
+            By.CSS_SELECTOR,
+            ".onetrust-close-btn-handler.onetrust-close-btn-ui.banner-close-button.ot-close-icon",
+        )
         if len(policy_close_button) != 0:
             policy_close_button[0].click()
             print("NOTE: REMOVED POLICY")
 
         try:
             cookies_button = self.driver.find_element(
-                By.ID, "onetrust-accept-btn-handler")
+                By.ID, "onetrust-accept-btn-handler"
+            )
         except:
-            print('NOTE: No cookies there')
+            print("NOTE: No cookies there")
         else:
             cookies_button.click()
             print("REMOVE COOKIES")
@@ -138,23 +163,29 @@ class SpotifyGenerator:
         try:
             confirm_email_field = self.driver.find_element(By.ID, "confirm")
         except:
-            print('NOTE: No confirm email there')
+            print("NOTE: No confirm email there")
         else:
             confirm_email_field.send_keys(self.email)
         return
 
     def fill_gender(self):
-        gender_radiobutton = self.driver.find_elements(By.CSS_SELECTOR, ".Indicator-sc-hjfusp-0.benotq")
+        gender_radiobutton = self.driver.find_elements(
+            By.CSS_SELECTOR, ".Indicator-sc-hjfusp-0.benotq"
+        )
         if len(gender_radiobutton) != 0:
             gender_radiobutton[0].click()
         else:
-            gender_radiobutton2 = self.driver.find_elements(By.CSS_SELECTOR, ".Indicator-sc-hjfusp-0.dFGMcY")
+            gender_radiobutton2 = self.driver.find_elements(
+                By.CSS_SELECTOR, ".Indicator-sc-hjfusp-0.dFGMcY"
+            )
             gender_radiobutton2[0].click()
 
     def submit_form(self):
         # submit the form
         submit_button = self.driver.find_elements(
-            By.CSS_SELECTOR, ".ButtonInner-sc-14ud5tc-0.dqLIWu.encore-bright-accent-set.SignupButton___StyledButtonPrimary-cjcq5h-1.jazsmO")
+            By.CSS_SELECTOR,
+            ".ButtonInner-sc-14ud5tc-0.dqLIWu.encore-bright-accent-set.SignupButton___StyledButtonPrimary-cjcq5h-1.jazsmO",
+        )
         submit_button[0].click()
         print("NOTE: FORM SUBMITED")
         return
@@ -163,41 +194,51 @@ class SpotifyGenerator:
         try:
             WebDriverWait(self.driver, 100).until(
                 EC.presence_of_element_located(
-                    (By.CSS_SELECTOR, ".mh-header-primary.svelte-vf0pv9"))
+                    (By.CSS_SELECTOR, ".mh-header-primary.svelte-vf0pv9")
+                )
             )
         finally:
             go_premium = self.driver.find_elements(
-                By.CSS_SELECTOR, ".mh-header-primary.svelte-vf0pv9")
+                By.CSS_SELECTOR, ".mh-header-primary.svelte-vf0pv9"
+            )
             if len(go_premium) != 0:
                 go_premium[0].click()
                 try:
                     WebDriverWait(self.driver, 100).until(
                         EC.presence_of_element_located(
-                            (By.CSS_SELECTOR, ".ButtonInner-sc-14ud5tc-0.eUyfdq.sc-jrsJWt.gNCnmw.sc-kEqXSa.exRBIa"))
+                            (
+                                By.CSS_SELECTOR,
+                                ".ButtonInner-sc-14ud5tc-0.eUyfdq.sc-jrsJWt.gNCnmw.sc-kEqXSa.exRBIa",
+                            )
+                        )
                     )
                 finally:
                     go_to_plan_page = self.driver.find_elements(
-                        By.CSS_SELECTOR, ".ButtonInner-sc-14ud5tc-0.eUyfdq.sc-jrsJWt.gNCnmw.sc-kEqXSa.exRBIa")
+                        By.CSS_SELECTOR,
+                        ".ButtonInner-sc-14ud5tc-0.eUyfdq.sc-jrsJWt.gNCnmw.sc-kEqXSa.exRBIa",
+                    )
                     if len(go_to_plan_page) != 0:
                         go_to_plan_page[0].click()
                         try:
                             WebDriverWait(self.driver, 100).until(
                                 EC.presence_of_element_located(
-                                    (By.CSS_SELECTOR, ".Indicator-hjfusp-0.hJZAEs"))
+                                    (By.CSS_SELECTOR, ".Indicator-hjfusp-0.hJZAEs")
+                                )
                             )
                         finally:
                             self.remove_descrections()
                             try:
                                 go_to_cc_form = self.driver.find_elements(
-                                    By.CSS_SELECTOR, ".Indicator-hjfusp-0.hJZAEs")
-                            except:  
+                                    By.CSS_SELECTOR, ".Indicator-hjfusp-0.hJZAEs"
+                                )
+                            except:
                                 self.try_ccs()
                             else:
                                 if len(go_to_cc_form) > 2:
                                     go_to_cc_form[1].click()
                                 elif len(go_to_cc_form) == 2:
                                     go_to_cc_form[0].click()
-    
+
                                 self.try_ccs()
 
             # driver.quit()
@@ -217,19 +258,26 @@ class SpotifyGenerator:
                 credit_card.fill_cc_input()
                 try:
                     WebDriverWait(self.driver, 100).until(
-                        EC.invisibility_of_element_located((By.CSS_SELECTOR, 'div[data-testid="loading-indicator"]'))
+                        EC.invisibility_of_element_located(
+                            (By.CSS_SELECTOR, 'div[data-testid="loading-indicator"]')
+                        )
                     )
                 finally:
                     try:
                         self.driver.find_element(
-                            By.CSS_SELECTOR, "Wrapper-sc-62m9tu-0.jieDxt.encore-negative-set")
+                            By.CSS_SELECTOR,
+                            "Wrapper-sc-62m9tu-0.jieDxt.encore-negative-set",
+                        )
                     except:
                         print("NOTE: CC REGECTED")
                         regected_cc_file.str_to_fichier(cc)
                     else:
                         self.export_account_data()
-                        print("NOTE: ACCOUNT IS CREATED, CHECK THE FILE {}".format(
-                            self.data_file))
+                        print(
+                            "NOTE: ACCOUNT IS CREATED, CHECK THE FILE {}".format(
+                                self.data_file
+                            )
+                        )
                         return
             else:
                 continue
@@ -251,4 +299,5 @@ class SpotifyGenerator:
         self.fill_gender()
         self.submit_form()
         self.cc_premium_activator()
+
     pass
