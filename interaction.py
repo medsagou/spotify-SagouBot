@@ -51,7 +51,7 @@ class SpotifyGenerator:
         driver = webdriver.Chrome()
         self.driver = driver
         self.driver.maximize_window()
-        self.driver.get("https://www.spotify.com/ec/signup")
+        self.driver.get("https://www.spotify.com/signup")
         print("NOTE: DRIVER CONNECTED")
         return
 
