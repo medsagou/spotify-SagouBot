@@ -17,6 +17,9 @@ from selenium.webdriver.common.by import By
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 from Module_cc import CC_Class
 from class_fichier import C_Fichier
@@ -40,18 +43,19 @@ class SpotifyGenerator:
         firefox_profile.set_preference("browser.privatebrowsing.autostart", True)
         driver = webdriver.Firefox(firefox_profile=firefox_profile)
         '''
-        '''
         
-        chromedriver_path = 'chromedriver.exe'
-        brave_path = '/usr/bin/brave-browser'
+        chromedriver_path = './chromedriver.exe'
+        # # brave_path = '/usr/bin/brave-browser'
         option = webdriver.ChromeOptions()
-        option.binary_location = brave_path
-        driver = webdriver.Chrome(executable_path=chromedriver_path, options=option)
-        '''
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+        #
+        # # driver = webdriver.Chrome()
         self.driver = driver
         self.driver.maximize_window()
         self.driver.get("https://www.spotify.com/signup")
+        # print("NOTE: DRIVER CONNECTED")
+        print('here')
+        # driver = webdriver.Chrome()
         print("NOTE: DRIVER CONNECTED")
         return
 
