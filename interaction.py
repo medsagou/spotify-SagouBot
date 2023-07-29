@@ -49,11 +49,14 @@ class SpotifyGenerator:
         # option = webdriver.ChromeOptions()
         driver = uc.Chrome(service=ChromeService(ChromeDriverManager().install()))
         #
-        # # driver = webdriver.Chrome()
+        # driver = webdriver.Chrome()
         self.driver = driver
         self.driver.maximize_window()
         # self.driver.get("https://nowsecure.nl")
-        # time.sleep(25)
+        # self.driver.get("https://bot.sannysoft.com/")
+        # time.sleep(60)
+
+        exit
         self.driver.get(f"https://www.spotify.com/{self.extenstion}/signup")
         # print("NOTE: DRIVER CONNECTED")
         print("here")
