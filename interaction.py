@@ -56,7 +56,6 @@ class SpotifyGenerator:
         # self.driver.get("https://bot.sannysoft.com/")
         # time.sleep(60)
 
-        exit
         self.driver.get(f"https://www.spotify.com/{self.extenstion}/signup")
         # print("NOTE: DRIVER CONNECTED")
         print("here")
